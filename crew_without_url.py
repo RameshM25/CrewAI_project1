@@ -1,4 +1,6 @@
-#importing the necessary libraries
+# ==========================================
+# IMPORTING THE NECESSARY LIBRARIES
+# ==========================================
 
 import os
 from dotenv import load_dotenv
@@ -18,6 +20,7 @@ MODEL = os.getenv("MODEL", "gpt-4o-mini")
 web_search_tool = SerperDevTool()
 youtube_search_tool = YoutubeVideoSearchTool()
 
+
 # ==========================================
 # 1. DEFINE THE BRAIN USING OPENAI'S FAST, AND CHEAP MODEL
 # ==========================================
@@ -31,7 +34,7 @@ web_research_agent = Agent(
     role="Web Research Agent",
     goal="Find the most valuable, up-to-date insights, statistics, and trends about {topic} from top-tier web sources.",
     backstory="""You are a Senior Web Research Analyst who excels at uncovering high-quality, recent information from the internet. You specialize in hunting down unique insights, hard statistics, expert opinions, and real-world examples that make for highly engaging LinkedIn posts. You completely ignore generic corporate fluff, digging deep to find the actual substance that audiences care about.""",
-    tools=[web_search_tool], 
+    tools=[web_search_tool],
     llm=my_llm,
     verbose=True
 )
@@ -62,29 +65,29 @@ image_generator_agent = Agent(
 )
 
 # ==========================================
-# 2. DEFINE TASKS (WITH URL PLACEHOLDERS)
+# 2. DEFINE TASKS (AUTONOMOUS - NO URLS)
 # ==========================================
 web_research_task = Task(
-    description="""Analyze this specific webpage: {website_urls}. 
-    Find the following regarding {topic}:
-    - 3-5 key insights or trends
+    description="""Search the web to find the latest trends, statistics, and news articles related to {topic}. Read and analyze ONLY the top 3 most relevant web pages. 
+    Find:
+    - 3-5 key insights or trends about this Topic
     - Any interesting statistics or data points
     - Expert opinions or hot takes
     - Real-world examples or case studies
     Compile the most interesting facts into a clear summary.""",
-    expected_output="A detailed research brief containing key statistics and core arguments from the provided webpage.",
+    expected_output="A detailed research brief containing at least 3 strong statistics and 2 unique perspectives on {topic}, sourced from a maximum of 3 articles.",
     agent=web_research_agent
 )
 
 youtube_research_task = Task(
-    description="""Analyze this specific YouTube video: {video_urls}. 
-    Extract the following regarding {topic}:
+    description="""Search YouTube for videos about {topic}. Find and analyze ONLY the top 3 most relevant videos.
+    Extract:
     - The speaker's main argument or thesis
-    - 3 most valuable takeaways from the video
+    - 3 most valuable takeaways from the videos
     - Any memorable quotes or frameworks mentioned
     - Practical advice or actionable tips shared
     This research will be used to write a LinkedIn post.""",
-    expected_output="A summary document highlighting core takeaways, memorable quotes, and actionable advice from the provided video.",
+    expected_output="A summary document highlighting core takeaways, memorable quotes, and actionable advice from exactly 3 YouTube videos on {topic}.",
     agent=youtube_research_agent
 )
 
@@ -130,11 +133,9 @@ crew = Crew(
     process=Process.sequential
 )
 
-# Because we used {website_url} and {video_url} in the tasks, we MUST provide them here!
+# Because our tasks only ask for {topic}, we only provide {topic} here!
 result = crew.kickoff(inputs={
-    "topic": "AI Agents",
-    "video_urls": "https://www.youtube.com/watch?v=pYelCIqkm5Y",
-    "website_urls": "https://www.ibm.com/think/topics/ai-agents"
+    "topic": "AI Agents"
 })
 
 print("########################################")
@@ -142,7 +143,3 @@ print("✅ SUCCESS! LinkedIn post saved to 'linkedin_post.md'")
 print("########################################")
 print("🎨 FINAL IMAGE GENERATION PROMPT:")
 print(result.raw)
-
-
-
-
