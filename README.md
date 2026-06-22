@@ -1,54 +1,181 @@
-# CrewaiProject1 Crew
+# 🧠 Autonomous LinkedIn Content Generator | Multi-Agent AI System with CrewAI
 
-Welcome to the CrewaiProject1 Crew project, powered by [crewAI](https://crewai.com). This template is designed to help you set up a multi-agent AI system with ease, leveraging the powerful and flexible framework provided by crewAI. Our goal is to enable your agents to collaborate effectively on complex tasks, maximizing their collective intelligence and capabilities.
+A multi-agent AI application that autonomously researches a topic, analyzes web and YouTube content, generates a LinkedIn-ready post, and creates a matching AI-generated visual asset.
 
-## Installation
+This project demonstrates practical implementation of Agentic AI, CrewAI Orchestration, Custom Tool Development, Prompt Engineering, and LLM Workflow Automation.
 
-Ensure you have Python >=3.10 <3.14 installed on your system. This project uses [UV](https://docs.astral.sh/uv/) for dependency management and package handling, offering a seamless setup and execution experience.
+## 🎯 Why I Built This
 
-First, if you haven't already, install uv:
+Creating high-quality LinkedIn content typically involves:
+* Researching multiple sources
+* Analyzing industry insights
+* Extracting actionable takeaways
+* Writing engaging copy
+* Designing supporting visuals
 
-```bash
-pip install uv
+This workflow is repetitive, time-consuming, and difficult to scale. To solve this, I built a multi-agent system that automates the entire content creation pipeline—from research to final visual generation—using specialized AI agents working collaboratively.
+
+## 🚀 Skills Demonstrated
+
+* **Multi-Agent AI Systems:** CrewAI Orchestration, Agent Collaboration & Context Sharing
+* **Prompt Engineering:** Strict rule enforcement and persona definitions
+* **Tool Development:** OpenAI API Integration, Custom Tool sub-classing
+* **Engineering:** AI Workflow Automation, Streamlit Application Development, LLM Application Engineering
+
+## 🏗️ System Architecture
+
+```mermaid
+graph TD
+    User([User Input])
+
+    Web[🌐 Web Research Agent]
+    YT[📺 YouTube Research Agent]
+
+    Writer[✍️ LinkedIn Writer Agent]
+    Image[🎨 Visual Designer Agent]
+
+    Output([✅ Final Content Package])
+
+    User --> Web
+    User --> YT
+
+    Web --> Writer
+    YT --> Writer
+
+    Writer --> Image
+
+    Writer --> Output
+    Image --> Output
 ```
 
-Next, navigate to your project directory and install the dependencies:
+## ⚡ Engineering Highlights
 
-(Optional) Lock the dependencies and install them by using the CLI command:
-```bash
-crewai install
+### 1. Multi-Agent Orchestration
+Implemented a sequential CrewAI workflow where specialized agents collaborate and pass context between tasks to produce a research-backed final output.
+
+### 2. Custom Tool Development
+CrewAI's image tooling was replaced with a custom implementation. Built a reusable `OpenAIImageTool` by extending CrewAI's `BaseTool`.
+* **Features:** OpenAI Image API integration, Local image persistence, Exception handling, Reusable architecture.
+
+### 3. Intelligent Research Routing
+The system supports two operating modes:
+* **Autonomous Discovery:** Agents independently discover the most relevant articles and videos.
+* **Source-Targeted Research:** Users can provide specific Website URLs or YouTube URLs, allowing the system to focus exclusively on selected sources.
+
+### 4. Prompt Engineering Framework
+Implemented strict content-generation constraints including: brand consistency, LinkedIn formatting rules, CTA enforcement, hashtag requirements, vocabulary restrictions, and post length controls.
+
+### 5. Modular Design
+The application separates Agent definitions, Business logic, Prompt rules, Branding guidelines, and the UI layer. This architecture makes the project easier to maintain and extend.
+
+## 🤖 AI Agents
+
+### 🌐 Web Research Agent
+* **Responsibilities:** Collecting trends, statistics, industry insights, and real-world examples.
+* **Tool:** Serper API
+
+### 📺 YouTube Research Agent
+* **Responsibilities:** Extracting expert opinions, frameworks, actionable advice, and key takeaways.
+* **Tool:** YouTube Search Tool
+
+### ✍️ LinkedIn Writer Agent
+* **Responsibilities:** Transforming research into engaging hooks, short-form content, strong CTAs, and branded LinkedIn posts.
+
+### 🎨 Creative Visual Designer Agent
+* **Responsibilities:** Analyzing post context, creating visual concepts, generating AI image prompts, and producing social-ready assets.
+
+## 🛠️ Tech Stack
+
+| Category | Technology |
+| :--- | :--- |
+| **Framework** | CrewAI |
+| **LLM** | OpenAI GPT-4o-mini |
+| **Search** | Serper API |
+| **Video Analysis** | YouTube Search Tool |
+| **Image Generation**| OpenAI Images API |
+| **Frontend** | Streamlit |
+| **Language** | Python |
+
+## 📂 Project Structure
+
+```text
+project/
+├── app.py                # Main Streamlit UI and Frontend Application
+├── main.py               # Core Multi-Agent and CrewAI Execution Setup
+├── skills/
+│   └── linkedin-branding.md
+├── docs/                 # Documentation & Media Assets
+│   ├── ui_screenshot.png
+│   ├── post_screenshot.png
+│   ├── portfolio_example.png
+│   ├── AGENTS.md
+│   ├── SKILL.md
+│   ├── architecture.md
+│   ├── app_basic.py
+│   ├── crew_without_url.py
+│   └── old_template/     # Archive folder for boilerplate files
+├── images/               # Workspace folder for newly generated visuals
+├── .env                  # API Keys Configuration (Git-ignored)
+├── .env.example
+├── .gitignore
+└── README.md
 ```
-### Customizing
 
-**Add your `OPENAI_API_KEY` into the `.env` file**
+## 📸 Demo
 
-- Modify `src/crewai_project1/config/agents.yaml` to define your agents
-- Modify `src/crewai_project1/config/tasks.yaml` to define your tasks
-- Modify `src/crewai_project1/crew.py` to add your own logic, tools and specific args
-- Modify `src/crewai_project1/main.py` to add custom inputs for your agents and tasks
+### 1. Application Interface (Streamlit)
+Users can easily input a topic or input specific URLs to force targeted multi-agent research routing.
+![Streamlit UI](docs/ui_screenshot.png)
 
-## Running the Project
+### 2. Autonomous Content Generation
+The LinkedIn Content Creator Agent formats the ingested data streams into an optimized short-form post.
+![Generated Output](docs/post_screenshot.png)
 
-To kickstart your crew of AI agents and begin task execution, run this from the root folder of your project:
+### 3. AI Visual Asset Creation
+The Visual Designer Agent creates an image generation prompt and calls the custom tool pipeline to produce accompanying graphical content.
+![Generated Image](docs/portfolio_example.png)
 
+## 🚀 Quick Start
+
+### 1. Clone Repository
 ```bash
-$ crewai run
+git clone [https://github.com/RameshM25/autonomous-linkedin-generator.git](https://github.com/RameshM25/autonomous-linkedin-generator.git)
+cd autonomous-linkedin-generator
 ```
 
-This command initializes the CrewAI_project1 Crew, assembling the agents and assigning them tasks as defined in your configuration.
+### 2. Install Dependencies
+```bash
+pip install -r requirements.txt
+```
 
-This example, unmodified, will run the create a `report.md` file with the output of a research on LLMs in the root folder.
+### 3. Configure Environment Variables
+Create a `.env` file in the root directory:
+```env
+OPENAI_API_KEY=your_openai_api_key
+SERPER_API_KEY=your_serper_api_key
+OPENAI_MODEL=gpt-4o-mini
+```
 
-## Understanding Your Crew
+### 4. Launch Application
+```bash
+streamlit run app.py
+```
 
-The CrewAI_project1 Crew is composed of multiple AI agents, each with unique roles, goals, and tools. These agents collaborate on a series of tasks, defined in `config/tasks.yaml`, leveraging their collective skills to achieve complex objectives. The `config/agents.yaml` file outlines the capabilities and configurations of each agent in your crew.
+## 🔮 Future Enhancements
 
-## Support
+- [ ] LinkedIn API Integration & Direct Post Publishing
+- [ ] RAG-Based Knowledge Retrieval & Vector Database Integration
+- [ ] Multi-Platform Content Generation
+- [ ] Analytics-Driven Content Optimization
+- [ ] Memory-Enabled Agents
+- [ ] Multi-Language Support
 
-For support, questions, or feedback regarding the CrewaiProject1 Crew or crewAI.
-- Visit our [documentation](https://docs.crewai.com)
-- Reach out to us through our [GitHub repository](https://github.com/joaomdmoura/crewai)
-- [Join our Discord](https://discord.com/invite/X4JWnZnxPb)
-- [Chat with our docs](https://chatg.pt/DWjSBZn)
+## 👨‍💻 Author
 
-Let's create wonders together with the power and simplicity of crewAI.
+**Ramesh Mourya** *Applied AI Engineer focused on building intelligent systems using modern Agentic AI frameworks.*
+
+* **Interests:** Agentic AI, CrewAI, LangGraph, AI Automation, LLM Applications
+* **Connect:** [GitHub](https://github.com/RameshM25)
+
+---
+⭐ **Support:** If you found this project interesting, consider giving it a Star. It helps others discover the project and supports future development!

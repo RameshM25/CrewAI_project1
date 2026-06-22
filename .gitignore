@@ -1,3 +1,19 @@
+# Environments
 .env
+.venv/
 __pycache__/
+.env.local
+
+# Project Outputs (Keep these ignored so they don't clog your Git history)
+linkedin_post.md
+
+images/*.png
+*.log
+
+# System/IDE Files
 .DS_Store
+.vscode/
+.idea/
+*.pyc
+*.pyo
+*.pyd
