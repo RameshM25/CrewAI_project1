@@ -121,7 +121,7 @@ project/
 └── README.md
 ```
 
-## 📸 Demo
+### 📸 Demo
 
 ### 1. Application Interface (Streamlit)
 Users can easily input a topic or input specific URLs to force targeted multi-agent research routing.
@@ -133,7 +133,7 @@ The LinkedIn Content Creator Agent formats the ingested data streams into an opt
 
 ### 3. AI Visual Asset Creation
 The Visual Designer Agent creates an image generation prompt and calls the custom tool pipeline to produce accompanying graphical content.
-![Generated Image](docs/portfolio_example.png)
+![Generated Image](docs/portfolio_example2.png)
 
 ## 🚀 Quick Start
 
